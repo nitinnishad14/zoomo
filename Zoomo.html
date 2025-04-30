@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zoomo</title>
+
+  <!-- CodeMirror CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(-45deg, #00c6ff, #0072ff, #00c6ff, #0072ff);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      font-size: 2.5em;
+      color: white;
+      font-weight: bold;
+      background: linear-gradient(to right, #000000, #1a1a1a, #000000);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .editor-container, .preview-container {
+      flex: 1;
+      border: 2px solid white;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .CodeMirror {
+      flex: 1;
+      height: 100%;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background-color: white;
+    }
+
+    .run-button {
+      background-color: #000;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s ease;
+    }
+
+    .run-button:hover {
+      background-color: #333;
+    }
+
+    .button-container {
+      text-align: right;
+      padding: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      color: white;
+      font-size: 1em;
+      background: linear-gradient(to right, #000000, #1a1a1a, #000000);
+    }
+  </style>
+</head>
+<body>
+  <header>ZooMo</header>
+
+  <main>
+    <!-- Code Editor -->
+    <div class="editor-container">
+      <div class="button-container">
+        <button class="run-button" onclick="updatePreview()">Run Code</button>
+      </div>
+      <textarea id="codeEditor">
+<!-- 👋 Welcome to Zoomo Editor -->
+<!-- Write HTML/CSS/JS below -->
+<h1 style="color:green;">Zoomo Live Preview</h1>
+<script>
+  console.log('Zoomo loaded!');
+</script>
+      </textarea>
+    </div>
+
+    <!-- Live Preview -->
+    <div class="preview-container">
+      <iframe id="preview"></iframe>
+    </div>
+  </main>
+
+  <footer>© ZooMo Website Name | All Rights Reserved 2025</footer>
+
+  <!-- CodeMirror Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+
+  <script>
+    const editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
+      mode: "htmlmixed",
+      lineNumbers: true,
+      theme: "default"
+    });
+
+    const iframe = document.getElementById("preview");
+
+    function updatePreview() {
+      const code = editor.getValue();
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      doc.open();
+      doc.write(code);
+      doc.close();
+    }
+
+    window.onload = updatePreview;
+  </script>
+</body>
+</html>
